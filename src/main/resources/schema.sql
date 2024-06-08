@@ -7,3 +7,9 @@ CREATE TABLE IF NOT EXISTS public."users" (
   "role" varchar(30) NOT NULL DEFAULT 'USER',
   "enabled" BOOLEAN NOT NULL DEFAULT TRUE
 );
+
+CREATE TABLE IF NOT EXISTS public."task_types" (
+  "id" serial PRIMARY KEY ,
+  "name" VARCHAR(50) NOT NULL UNIQUE,
+  "enabled" BOOLEAN NOT NULL DEFAULT TRUE
+);
