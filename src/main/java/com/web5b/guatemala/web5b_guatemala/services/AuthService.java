@@ -37,8 +37,6 @@ public class AuthService implements IAuthService {
   public Mono<AuthResponseDto> register(User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setEnabled(true);
-    System.out.println(user);
-    
     return userRepository.save(user)
       .map(u -> new AuthResponseDto("Bearer token"))
       //error pq ya existe

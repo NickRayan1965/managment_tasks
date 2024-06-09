@@ -2,8 +2,8 @@ package com.web5b.guatemala.web5b_guatemala.services;
 
 import org.springframework.stereotype.Service;
 
-import com.web5b.guatemala.web5b_guatemala.dtos.CreateTaskTypeDto;
-import com.web5b.guatemala.web5b_guatemala.dtos.UpdateTaskTypeDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.create.CreateTaskTypeDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.update.UpdateTaskTypeDto;
 import com.web5b.guatemala.web5b_guatemala.entities.TaskType;
 import com.web5b.guatemala.web5b_guatemala.entities.mappers.ITaskTypeMapper;
 import com.web5b.guatemala.web5b_guatemala.models.NotFoundException;

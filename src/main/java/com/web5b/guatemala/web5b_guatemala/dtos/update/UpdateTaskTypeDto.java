@@ -1,4 +1,6 @@
-package com.web5b.guatemala.web5b_guatemala.dtos;
+package com.web5b.guatemala.web5b_guatemala.dtos.update;
+
+import com.web5b.guatemala.web5b_guatemala.dtos.create.CreateTaskTypeDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
