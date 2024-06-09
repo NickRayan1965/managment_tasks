@@ -1,5 +1,5 @@
-drop schema public cascade;
-create schema public;
+--drop schema public cascade;
+--create schema public;
 CREATE TABLE IF NOT EXISTS public."users" (
   "id" bigserial PRIMARY KEY ,
   "username" VARCHAR(50) NOT NULL UNIQUE,

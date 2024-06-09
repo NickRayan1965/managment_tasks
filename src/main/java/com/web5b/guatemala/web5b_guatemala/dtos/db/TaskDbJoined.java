@@ -12,19 +12,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskDbJoined {
-  private Long taskId;
-  private String taskName;
-  private String taskDescription;
+  private Long task_id;
+  private String task_name;
+  private String task_description;
 
-  private Long taskTypeId;
-  private String taskTypeName;
+  private Long task_type_id;
+  private String task_type_name;
+  private Boolean task_type_enabled;
 
-  private Long userId;
+  private Long user_id;
   private String username;
-  private Role userRole;
-  private Boolean userEnabled;
+  private Role user_role;
+  private Boolean user_enabled;
 
 
-  private Boolean taskEnabled;
+  private Boolean task_enabled;
 
 }

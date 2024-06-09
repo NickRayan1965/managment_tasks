@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web5b.guatemala.web5b_guatemala.dtos.create.CreateTaskTypeDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.res.TaskTypeDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.update.UpdateTaskTypeDto;
-import com.web5b.guatemala.web5b_guatemala.entities.TaskType;
 import com.web5b.guatemala.web5b_guatemala.services.ITaskTypeService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,22 +25,22 @@ public class TaskTypeController {
   private final ITaskTypeService taskTypeService;
 
   @GetMapping
-  public Flux<TaskType> findAll() {
+  public Flux<TaskTypeDto> findAll() {
     return taskTypeService.findAll();
   }
 
   @GetMapping("/{id}")
-  public Mono<TaskType> findById(@PathVariable(name = "id") Long id) {
-    return taskTypeService.findById(id);
+  public Mono<TaskTypeDto> findById(@PathVariable(name = "id") Long id) {
+    return taskTypeService.findOneById(id);
   }
 
   @PostMapping
-  public Mono<TaskType> create(@RequestBody CreateTaskTypeDto dto) {
+  public Mono<TaskTypeDto> create(@RequestBody CreateTaskTypeDto dto) {
     return taskTypeService.create(dto);
   }
 
   @PutMapping("/{id}")
-  public Mono<TaskType> update(@PathVariable(name = "id") Long id, @RequestBody UpdateTaskTypeDto dto) {
+  public Mono<TaskTypeDto> update(@PathVariable(name = "id") Long id, @RequestBody UpdateTaskTypeDto dto) {
     return taskTypeService.update(id, dto);
   }
 

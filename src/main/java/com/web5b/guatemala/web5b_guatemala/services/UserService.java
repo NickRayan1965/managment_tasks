@@ -1,8 +1,14 @@
 package com.web5b.guatemala.web5b_guatemala.services;
 
+import java.time.Duration;
+
 import org.springframework.stereotype.Service;
 
+import com.web5b.guatemala.web5b_guatemala.dtos.create.CreateUserDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.res.UserDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.update.UpdateUserDto;
 import com.web5b.guatemala.web5b_guatemala.entities.User;
+import com.web5b.guatemala.web5b_guatemala.entities.mappers.IUserMapper;
 import com.web5b.guatemala.web5b_guatemala.models.NotFoundException;
 import com.web5b.guatemala.web5b_guatemala.repositories.IUserRepository;
 
@@ -15,23 +21,46 @@ import reactor.core.publisher.Mono;
 public class UserService implements IUserService {
   private final IUserRepository userRepository;
 
+  private final IUserMapper userMapper;
+
   @Override
-  public Mono<User> findOneById(Long id) {
-    return userRepository.findById(id).switchIfEmpty(Mono.error(new NotFoundException("User not found")));
+  public Mono<UserDto> findOneById(Long id) {
+    return userRepository.findById(id)
+        .map(userMapper::toDto)
+        .delayElement(Duration.ofSeconds(5))
+        .switchIfEmpty(Mono.error(new NotFoundException("User not found")));
   }
 
   @Override
-  public Flux<User> findAll() {
-    return userRepository.findAll();
+  public Flux<UserDto> findAll() {
+    return userRepository.findAll().map(userMapper::toDto);
   }
 
   @Override
-  public Mono<User> update(Long id, User user) {
+  public Mono<UserDto> update(Long id, UpdateUserDto dto) {
     return findOneById(id)
-      .flatMap(e -> {
-        user.setId(e.getId());
-        return userRepository.save(user);
-      });
+        .flatMap(u -> getDtoVerified(userMapper.dtoToEntity(dto)))
+        .flatMap(userRepository::save)
+        .map(userMapper::toDto);
+  }
+
+  @Override
+  public Mono<UserDto> create(CreateUserDto dto) {
+    return getDtoVerified(userMapper.dtoToEntity(dto))
+        .flatMap(userRepository::save)
+        .map(userMapper::toDto);
+  }
+
+  @Override
+  public Mono<Void> delete(Long id) {
+    return findOneById(id)
+        .map(u -> u.getId())
+        .flatMap(userRepository::deleteById);
+  }
+
+  @Override
+  public Mono<User> getDtoVerified(User dto) {
+    return Mono.just(dto);
   }
 
 }

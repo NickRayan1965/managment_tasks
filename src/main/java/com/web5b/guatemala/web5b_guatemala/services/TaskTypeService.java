@@ -3,6 +3,7 @@ package com.web5b.guatemala.web5b_guatemala.services;
 import org.springframework.stereotype.Service;
 
 import com.web5b.guatemala.web5b_guatemala.dtos.create.CreateTaskTypeDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.res.TaskTypeDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.update.UpdateTaskTypeDto;
 import com.web5b.guatemala.web5b_guatemala.entities.TaskType;
 import com.web5b.guatemala.web5b_guatemala.entities.mappers.ITaskTypeMapper;
@@ -21,35 +22,37 @@ public class TaskTypeService implements ITaskTypeService {
   private final ITaskTypeMapper taskTypeMapper;
 
   @Override
-  public Mono<TaskType> create(CreateTaskTypeDto dto) {
-    TaskType dtoVerified = taskTypeMapper.dtoToEntity(dto);
-    return taskTypeRepository.save(dtoVerified);
+  public Mono<TaskTypeDto> create(CreateTaskTypeDto dto) {
+    return getDtoVerified(taskTypeMapper.dtoToEntity(dto))
+        .flatMap(taskTypeRepository::save)
+        .map(taskTypeMapper::toDto);
   }
 
   @Override
-  public Mono<TaskType> findById(Long id) {
-    return taskTypeRepository.findById(id).switchIfEmpty(Mono.error(new NotFoundException("TaskType not found")));
+  public Mono<TaskTypeDto> findOneById(Long id) {
+    return taskTypeRepository.findById(id)
+        .map(taskTypeMapper::toDto)
+        .switchIfEmpty(Mono.error(new NotFoundException("TaskType not found")));
   }
 
   @Override
-  public Mono<TaskType> update(Long id, UpdateTaskTypeDto dto) {
-    return findById(id)
-      .flatMap(taskType -> {
-        TaskType dtoVerified = taskTypeMapper.dtoToEntity(dto);
-        dtoVerified.setId(taskType.getId());
-        return taskTypeRepository.save(dtoVerified);
-      });
+  public Mono<TaskTypeDto> update(Long id, UpdateTaskTypeDto dto) {
+    return findOneById(id)
+        .flatMap(taskType -> getDtoVerified(taskTypeMapper.dtoToEntity(dto)))
+        .flatMap(taskTypeRepository::save)
+        .map(taskTypeMapper::toDto);
   }
 
   @Override
   public Mono<Void> delete(Long id) {
-    return findById(id)
-      .flatMap(taskType -> taskTypeRepository.delete(taskType));
+    return findOneById(id)
+        .map(taskType -> taskType.getId())
+        .flatMap(taskTypeRepository::deleteById);
   }
 
   @Override
-  public Flux<TaskType> findAll() {
-    return taskTypeRepository.findAllEnabled();
+  public Flux<TaskTypeDto> findAll() {
+    return taskTypeRepository.findAllEnabled().map(taskTypeMapper::toDto);
   }
 
   @Override
