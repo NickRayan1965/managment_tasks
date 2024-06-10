@@ -30,7 +30,7 @@ public class UserService implements IUserService {
 
   @Override
   public Flux<UserDto> findAll() {
-    return userRepository.findAll().map(userMapper::toDto);
+    return userRepository.findAllEnabled().map(userMapper::toDto);
   }
 
   @Override
