@@ -51,8 +51,12 @@ public class UserService implements IUserService {
   @Override
   public Mono<Void> delete(Long id) {
     return findOneById(id)
-        .map(u -> u.getId())
-        .flatMap(userRepository::deleteById);
+        .map(userMapper::dtoToEntity)
+        .flatMap(user -> {
+          user.setEnabled(false);
+          return userRepository.save(user);
+        })
+        .then();
   }
 
   @Override
