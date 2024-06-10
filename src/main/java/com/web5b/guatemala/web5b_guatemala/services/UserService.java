@@ -27,7 +27,6 @@ public class UserService implements IUserService {
   public Mono<UserDto> findOneById(Long id) {
     return userRepository.findById(id)
         .map(userMapper::toDto)
-        .delayElement(Duration.ofSeconds(5))
         .switchIfEmpty(Mono.error(new NotFoundException("User not found")));
   }
 
