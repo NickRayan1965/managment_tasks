@@ -1,7 +1,5 @@
 package com.web5b.guatemala.web5b_guatemala.services;
 
-import java.time.Duration;
-
 import org.springframework.stereotype.Service;
 
 import com.web5b.guatemala.web5b_guatemala.dtos.create.CreateUserDto;
