@@ -12,6 +12,8 @@ public interface ITaskMapper {
   Task dtoToEntity(CreateTaskDto dto);
 
   Task dtoToEntity(UpdateTaskDto dto);
+  
+  Task dtoToEntity(TaskDto dto);
 
   TaskDto toDto(TaskDbJoined entity);
 

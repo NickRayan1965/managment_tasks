@@ -38,12 +38,11 @@ public class TaskService implements ITaskService {
 
   public Mono<Task> getDtoVerified(Task task) {
     Flux<Mono<?>> resultFlux = Flux.fromIterable(Arrays.asList(
-            task.getUserId() != null ? userService.findOneById(task.getUserId()) : Mono.empty(),
-            task.getTypeId() != null ? taskTypeService.findOneById(task.getTypeId()) : Mono.empty())
-        );
+        task.getUserId() != null ? userService.findOneById(task.getUserId()) : Mono.empty(),
+        task.getTypeId() != null ? taskTypeService.findOneById(task.getTypeId()) : Mono.empty()));
     return Flux.zip(resultFlux, objects -> objects)
         .then(Mono.just(task));
-}
+  }
 
   @Override
   public Mono<TaskDto> update(Long id, UpdateTaskDto dto) {
@@ -56,8 +55,12 @@ public class TaskService implements ITaskService {
   @Override
   public Mono<Void> delete(Long id) {
     return findOneById(id)
-        .map(task -> task.getId())
-        .flatMap(taskRepository::deleteById);
+        .map(taskMapper::dtoToEntity)
+        .flatMap(task -> {
+          task.setEnabled(false);
+          return taskRepository.save(task);
+        })
+        .then();
   }
 
   @Override

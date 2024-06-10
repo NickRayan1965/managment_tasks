@@ -89,4 +89,16 @@ public class TaskMapper implements ITaskMapper {
     return ((List<Task>) entities).stream().map(this::toDto).toList();
   }
 
+  @Override
+  public Task dtoToEntity(TaskDto dto) {
+    return Task.builder()
+        .id(dto.getId())
+        .name(dto.getName())
+        .description(dto.getDescription())
+        .enabled(dto.getEnabled())
+        .userId(dto.getUser().getId())
+        .typeId(dto.getType() != null ? dto.getType().getId() : null)
+        .build();
+  }
+
 }
