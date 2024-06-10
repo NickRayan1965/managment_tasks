@@ -24,24 +24,23 @@ public class TaskService implements ITaskService {
   private final ITaskTypeService taskTypeService;
   private final ITaskMapper taskMapper;
 
+  @Override
+  public Flux<TaskDto> findAll() {
+    return taskRepository.findAllEnabled().map(taskMapper::toDto);
+  }
+
+  @Override
   public Mono<TaskDto> findOneById(Long id) {
     return taskRepository.findOneById(id)
         .map(taskMapper::toDto)
         .switchIfEmpty(Mono.error(new NotFoundException("Task not found.")));
   }
 
+  @Override
   public Mono<TaskDto> create(CreateTaskDto dto) {
     return getDtoVerified(taskMapper.dtoToEntity(dto))
         .flatMap(taskRepository::save)
         .map(taskMapper::toDto);
-  }
-
-  public Mono<Task> getDtoVerified(Task task) {
-    Flux<Mono<?>> resultFlux = Flux.fromIterable(Arrays.asList(
-        task.getUserId() != null ? userService.findOneById(task.getUserId()) : Mono.empty(),
-        task.getTypeId() != null ? taskTypeService.findOneById(task.getTypeId()) : Mono.empty()));
-    return Flux.zip(resultFlux, objects -> objects)
-        .then(Mono.just(task));
   }
 
   @Override
@@ -64,7 +63,11 @@ public class TaskService implements ITaskService {
   }
 
   @Override
-  public Flux<TaskDto> findAll() {
-    return taskRepository.findAll().map(taskMapper::toDto);
+  public Mono<Task> getDtoVerified(Task task) {
+    Flux<Mono<?>> resultFlux = Flux.fromIterable(Arrays.asList(
+        task.getUserId() != null ? userService.findOneById(task.getUserId()) : Mono.empty(),
+        task.getTypeId() != null ? taskTypeService.findOneById(task.getTypeId()) : Mono.empty()));
+    return Flux.zip(resultFlux, objects -> objects)
+        .then(Mono.just(task));
   }
 }
