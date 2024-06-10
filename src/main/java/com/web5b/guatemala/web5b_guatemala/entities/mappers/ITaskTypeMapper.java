@@ -10,6 +10,7 @@ import com.web5b.guatemala.web5b_guatemala.entities.TaskType;
 public interface ITaskTypeMapper {
   TaskType dtoToEntity(CreateTaskTypeDto dto);
   TaskType dtoToEntity(UpdateTaskTypeDto dto);
+  TaskType dtoToEntity(TaskTypeDto dto);
   TaskTypeDto toDto(TaskType entity);
   List<TaskTypeDto> toDto(List<TaskType> entities);
 }

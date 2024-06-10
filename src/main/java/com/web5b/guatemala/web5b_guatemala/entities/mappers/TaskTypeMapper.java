@@ -42,4 +42,13 @@ public class TaskTypeMapper implements ITaskTypeMapper {
     return entities.stream().map(this::toDto).toList();
   }
 
+  @Override
+  public TaskType dtoToEntity(TaskTypeDto dto) {
+    return TaskType.builder()
+        .id(dto.getId())
+        .name(dto.getName())
+        .enabled(dto.getEnabled())
+        .build();
+  }
+
 }

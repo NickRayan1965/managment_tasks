@@ -46,8 +46,12 @@ public class TaskTypeService implements ITaskTypeService {
   @Override
   public Mono<Void> delete(Long id) {
     return findOneById(id)
-        .map(taskType -> taskType.getId())
-        .flatMap(taskTypeRepository::deleteById);
+        .map(taskTypeMapper::dtoToEntity)
+        .flatMap(taskType -> {
+          taskType.setEnabled(false);
+          return taskTypeRepository.save(taskType);
+        })
+        .then();
   }
 
   @Override

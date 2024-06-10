@@ -47,4 +47,14 @@ public class UserMapper implements IUserMapper {
     return entities.stream().map(this::toDto).toList();
   }
 
+  @Override
+  public User dtoToEntity(UserDto dto) {
+    return User.builder()
+        .id(dto.getId())
+        .username(dto.getUsername())
+        .role(dto.getRole())
+        .enabled(dto.getEnabled())
+        .build();
+  }
+
 }
