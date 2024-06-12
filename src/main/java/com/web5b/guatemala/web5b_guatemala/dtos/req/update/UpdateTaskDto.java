@@ -1,6 +1,6 @@
-package com.web5b.guatemala.web5b_guatemala.dtos.update;
+package com.web5b.guatemala.web5b_guatemala.dtos.req.update;
 
-import com.web5b.guatemala.web5b_guatemala.dtos.create.CreateUserDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.create.CreateTaskDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class UpdateUserDto extends CreateUserDto {
+public class UpdateTaskDto extends CreateTaskDto {
   private Boolean enabled;
 }

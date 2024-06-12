@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.web5b.guatemala.web5b_guatemala.dtos.create.CreateTaskTypeDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.create.CreateTaskTypeDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.update.UpdateTaskTypeDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.TaskTypeDto;
-import com.web5b.guatemala.web5b_guatemala.dtos.update.UpdateTaskTypeDto;
 import com.web5b.guatemala.web5b_guatemala.entities.TaskType;
 
 @Component

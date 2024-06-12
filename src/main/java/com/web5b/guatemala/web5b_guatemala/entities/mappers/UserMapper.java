@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.web5b.guatemala.web5b_guatemala.dtos.create.CreateUserDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.create.CreateUserDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.update.UpdateUserDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.UserDto;
-import com.web5b.guatemala.web5b_guatemala.dtos.update.UpdateUserDto;
 import com.web5b.guatemala.web5b_guatemala.entities.User;
 
 @Component
@@ -54,6 +54,16 @@ public class UserMapper implements IUserMapper {
         .username(dto.getUsername())
         .role(dto.getRole())
         .enabled(dto.getEnabled())
+        .build();
+  }
+
+  @Override
+  public User toEntity(CreateUserDto createUserDto) {
+    return User.builder()
+        .username(createUserDto.getUsername())
+        .password(createUserDto.getPassword())
+        .role(createUserDto.getRole())
+        .enabled(true)
         .build();
   }
 

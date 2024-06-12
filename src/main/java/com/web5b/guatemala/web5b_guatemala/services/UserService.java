@@ -2,9 +2,9 @@ package com.web5b.guatemala.web5b_guatemala.services;
 
 import org.springframework.stereotype.Service;
 
-import com.web5b.guatemala.web5b_guatemala.dtos.create.CreateUserDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.create.CreateUserDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.update.UpdateUserDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.UserDto;
-import com.web5b.guatemala.web5b_guatemala.dtos.update.UpdateUserDto;
 import com.web5b.guatemala.web5b_guatemala.entities.User;
 import com.web5b.guatemala.web5b_guatemala.entities.mappers.IUserMapper;
 import com.web5b.guatemala.web5b_guatemala.models.NotFoundException;

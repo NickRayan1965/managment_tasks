@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web5b.guatemala.web5b_guatemala.dtos.create.CreateTaskTypeDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.create.CreateTaskTypeDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.update.UpdateTaskTypeDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.TaskTypeDto;
-import com.web5b.guatemala.web5b_guatemala.dtos.update.UpdateTaskTypeDto;
 import com.web5b.guatemala.web5b_guatemala.services.ITaskTypeService;
 
 import lombok.RequiredArgsConstructor;

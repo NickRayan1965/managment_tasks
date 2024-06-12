@@ -1,4 +1,4 @@
-package com.web5b.guatemala.web5b_guatemala.dtos.create;
+package com.web5b.guatemala.web5b_guatemala.dtos.req.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

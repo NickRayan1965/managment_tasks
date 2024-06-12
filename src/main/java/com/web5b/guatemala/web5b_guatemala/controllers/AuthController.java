@@ -2,9 +2,10 @@ package com.web5b.guatemala.web5b_guatemala.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.web5b.guatemala.web5b_guatemala.dtos.AuthResponseDto;
-import com.web5b.guatemala.web5b_guatemala.dtos.LoginDto;
-import com.web5b.guatemala.web5b_guatemala.entities.User;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.LoginDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.create.CreateUserDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.res.LoginResponseDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.res.UserDto;
 import com.web5b.guatemala.web5b_guatemala.services.IAuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,13 +23,13 @@ public class AuthController {
   private final IAuthService authService;
 
   @PostMapping("/login")
-  public Mono<AuthResponseDto> login(@RequestBody LoginDto loginDto) {
+  public Mono<LoginResponseDto> login(@RequestBody LoginDto loginDto) {
       return authService.login(loginDto);
   }
 
   @PostMapping("/register")
-  public Mono<AuthResponseDto> register(@RequestBody User loginDto) {
-      return authService.register(loginDto);
+  public Mono<UserDto> register(@RequestBody CreateUserDto createUserDto) {
+      return authService.register(createUserDto);
   }
   
 }

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.web5b.guatemala.web5b_guatemala.dtos.req.update.UpdateUserDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.UserDto;
-import com.web5b.guatemala.web5b_guatemala.dtos.update.UpdateUserDto;
 import com.web5b.guatemala.web5b_guatemala.services.IUserService;
 
 import lombok.RequiredArgsConstructor;

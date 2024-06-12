@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.web5b.guatemala.web5b_guatemala.dtos.create.CreateTaskDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.db.TaskDbJoined;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.create.CreateTaskDto;
+import com.web5b.guatemala.web5b_guatemala.dtos.req.update.UpdateTaskDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.TaskDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.TaskTypeDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.UserDto;
-import com.web5b.guatemala.web5b_guatemala.dtos.update.UpdateTaskDto;
 import com.web5b.guatemala.web5b_guatemala.entities.Task;
 
 @Component
