@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web5b.guatemala.web5b_guatemala.dtos.req.create.CreateTaskTypeDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.req.update.UpdateTaskTypeDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.TaskTypeDto;
+import com.web5b.guatemala.web5b_guatemala.entities.Role;
+import com.web5b.guatemala.web5b_guatemala.security.decorators.HasAuthority;
 import com.web5b.guatemala.web5b_guatemala.services.ITaskTypeService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,16 +36,19 @@ public class TaskTypeController {
     return taskTypeService.findOneById(id);
   }
 
+  @HasAuthority(Role.ADMIN)
   @PostMapping
   public Mono<TaskTypeDto> create(@RequestBody CreateTaskTypeDto dto) {
     return taskTypeService.create(dto);
   }
 
+  @HasAuthority(Role.ADMIN)
   @PutMapping("/{id}")
   public Mono<TaskTypeDto> update(@PathVariable(name = "id") Long id, @RequestBody UpdateTaskTypeDto dto) {
     return taskTypeService.update(id, dto);
   }
 
+  @HasAuthority(Role.ADMIN)
   @DeleteMapping("/{id}")
   public Mono<Void> delete(@PathVariable(name = "id") Long id) {
     return taskTypeService.delete(id);

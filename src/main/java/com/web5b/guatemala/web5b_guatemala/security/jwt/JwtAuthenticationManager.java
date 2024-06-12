@@ -1,5 +1,6 @@
 package com.web5b.guatemala.web5b_guatemala.security.jwt;
 
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,8 +38,10 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
               .filter(user -> user.isEnabled())
               .switchIfEmpty(Mono.error(new DisabledException("User is disabled talk to admin to enable your account")))
               .map(user -> {
-                return new UsernamePasswordAuthenticationToken(user.getUsername(), null,
+                AbstractAuthenticationToken authenticationResponse = new UsernamePasswordAuthenticationToken(user.getUsername(), null,
                     user.getAuthorities());
+                authenticationResponse.setDetails(user);
+                return authenticationResponse;
               });
         })
 

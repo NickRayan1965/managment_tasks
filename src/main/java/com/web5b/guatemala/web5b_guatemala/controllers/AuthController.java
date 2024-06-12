@@ -13,6 +13,7 @@ import com.web5b.guatemala.web5b_guatemala.services.IAuthService;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,8 @@ public class AuthController {
 
   @HasAuthority(Role.ADMIN)
   @PostMapping("/register")
-  public Mono<UserDto> register(@RequestBody CreateUserDto createUserDto) {
+  public Mono<UserDto> register(@RequestBody CreateUserDto createUserDto, Authentication authentication) {
+      System.out.println(authentication);
       return authService.register(createUserDto);
   }
   
