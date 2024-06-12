@@ -62,14 +62,11 @@ public class HasAuthoritiesAspect {
   private Mono<?> checkAnyAuthorityHandler(ProceedingJoinPoint joinPoint, HasAnyAuthority hasAnyAuthority) {
     Role[] rolesEnum = hasAnyAuthority.value();
     String[] roles = Arrays.stream(rolesEnum).map(Enum::name).toArray(String[]::new);
-    System.out.println("Checking any authority");
-    System.out.println(roles[0]);
     return Mono.just(rolesEnum)
         .flatMap(customSecurityService::hasAnyAuthority)
         .flatMap(canAccess -> {
           if (canAccess) {
             try {
-              System.out.println("Proceeding");
               return (Mono<?>) joinPoint.proceed();
             } catch (Throwable e) {
               return Mono.error(e);

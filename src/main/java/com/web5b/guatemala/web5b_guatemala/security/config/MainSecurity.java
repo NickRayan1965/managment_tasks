@@ -27,7 +27,7 @@ public class MainSecurity {
         .csrf(csrfSpec -> csrfSpec.disable())
         .authorizeExchange(
             authorizeExchangeSpec -> authorizeExchangeSpec
-                .pathMatchers("/auth/**").permitAll()
+                .pathMatchers("/auth/login").permitAll()
                 .anyExchange().authenticated()
                 
         )

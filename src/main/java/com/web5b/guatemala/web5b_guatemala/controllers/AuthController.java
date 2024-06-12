@@ -6,6 +6,8 @@ import com.web5b.guatemala.web5b_guatemala.dtos.req.LoginDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.req.create.CreateUserDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.LoginResponseDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.UserDto;
+import com.web5b.guatemala.web5b_guatemala.entities.Role;
+import com.web5b.guatemala.web5b_guatemala.security.decorators.HasAuthority;
 import com.web5b.guatemala.web5b_guatemala.services.IAuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class AuthController {
       return authService.login(loginDto);
   }
 
+  @HasAuthority(Role.ADMIN)
   @PostMapping("/register")
   public Mono<UserDto> register(@RequestBody CreateUserDto createUserDto) {
       return authService.register(createUserDto);

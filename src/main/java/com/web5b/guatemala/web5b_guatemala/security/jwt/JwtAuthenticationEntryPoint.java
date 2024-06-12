@@ -23,8 +23,6 @@ public class JwtAuthenticationEntryPoint implements ServerAuthenticationEntryPoi
 
   @Override
   public Mono<Void> commence(ServerWebExchange exchange, AuthenticationException ex) {
-    System.out.println("JwtAuthenticationEntryPoint.commence()");
-    System.out.println(ex.getMessage());
     return Mono.just(ex)
         .map(this::getErrorAttributes)
         .doOnNext(error -> {
