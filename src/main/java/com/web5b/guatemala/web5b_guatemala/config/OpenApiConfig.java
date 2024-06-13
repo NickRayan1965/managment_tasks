@@ -34,10 +34,6 @@ import io.swagger.v3.oas.annotations.servers.Server;
     bearerFormat = "JWT",
     in = SecuritySchemeIn.HEADER
     ),
-    @SecurityScheme(
-    name = "NoAuth",
-    type = SecuritySchemeType.OPENIDCONNECT
-    )
   }
 )
 public class OpenApiConfig {

@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AuthController {
   private final IAuthService authService;
 
-  @SecurityRequirement(name = "NoAuth")
   @PostMapping("/login")
   public Mono<LoginResponseDto> login(@RequestBody LoginDto loginDto) {
       return authService.login(loginDto);
