@@ -11,5 +11,4 @@ public class CreateTaskDto {
   private String name;
   private String description;
   private Long typeId;
-  private Long userId;
 }

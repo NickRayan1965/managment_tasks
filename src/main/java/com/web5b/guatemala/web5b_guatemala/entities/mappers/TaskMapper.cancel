@@ -21,7 +21,6 @@ public class TaskMapper implements ITaskMapper {
         .name(dto.getName())
         .description(dto.getDescription())
         .typeId(dto.getTypeId())
-        .userId(dto.getUserId())
         .enabled(true)
         .build();
   }
@@ -32,7 +31,6 @@ public class TaskMapper implements ITaskMapper {
         .name(dto.getName())
         .description(dto.getDescription())
         .typeId(dto.getTypeId())
-        .userId(dto.getUserId())
         .enabled(dto.getEnabled())
         .build();
   }

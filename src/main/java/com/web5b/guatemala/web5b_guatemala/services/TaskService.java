@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.stereotype.Service;
 
+import com.web5b.guatemala.web5b_guatemala.dtos.db.TaskDbJoined;
 import com.web5b.guatemala.web5b_guatemala.dtos.req.create.CreateTaskDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.req.update.UpdateTaskDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.TaskDto;
@@ -25,35 +26,44 @@ public class TaskService implements ITaskService {
   private final ITaskMapper taskMapper;
 
   @Override
-  public Flux<TaskDto> findAll() {
-    return taskRepository.findAllEnabled().map(taskMapper::toDto);
+  public Flux<TaskDto> findAllEnabledByUserId(Long userId) {
+    return taskRepository.findAllEnabledByUserId(userId).map(taskMapper::toDto);
   }
 
   @Override
-  public Mono<TaskDto> findOneById(Long id) {
-    return taskRepository.findOneById(id)
+  public Mono<TaskDto> findOneById(Long id, Long userId) {
+    Mono<TaskDbJoined> taskPromise = userId != null ? taskRepository.findOneByIdAndUserId(id, userId)
+        : taskRepository.findOneById(id);
+    return taskPromise
         .map(taskMapper::toDto)
         .switchIfEmpty(Mono.error(new NotFoundException("Task not found.")));
   }
 
   @Override
-  public Mono<TaskDto> create(CreateTaskDto dto) {
+  public Mono<TaskDto> create(CreateTaskDto dto, Long userId) {
     return getDtoVerified(taskMapper.dtoToEntity(dto))
+        .doOnNext(task -> task.setUserId(userId))
         .flatMap(taskRepository::save)
         .map(taskMapper::toDto);
   }
 
   @Override
-  public Mono<TaskDto> update(Long id, UpdateTaskDto dto) {
-    return findOneById(id)
-        .flatMap(task -> getDtoVerified(taskMapper.dtoToEntity(dto)))
-        .flatMap(taskRepository::save)
-        .map(taskMapper::toDto);
+  public Mono<TaskDto> update(Long id, UpdateTaskDto dto, Long userId) {
+    return findOneById(id, userId)
+          .map(taskMapper::dtoToEntity)
+          .flatMap(task-> {
+            return getDtoVerified(taskMapper.dtoToEntity(dto))
+                .map(t -> task);
+          })
+          .doOnNext(task -> taskMapper.mergeToEntity(dto, task))
+          .flatMap(taskRepository::save)
+          .map(taskMapper::toDto)    
+        ;
   }
 
   @Override
-  public Mono<Void> delete(Long id) {
-    return findOneById(id)
+  public Mono<Void> delete(Long id, Long userId) {
+    return findOneById(id, userId)
         .map(taskMapper::dtoToEntity)
         .flatMap(task -> {
           task.setEnabled(false);
@@ -70,4 +80,5 @@ public class TaskService implements ITaskService {
     return Flux.zip(resultFlux, objects -> objects)
         .then(Mono.just(task));
   }
+
 }

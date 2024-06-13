@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web5b.guatemala.web5b_guatemala.dtos.req.create.CreateTaskDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.req.update.UpdateTaskDto;
 import com.web5b.guatemala.web5b_guatemala.dtos.res.TaskDto;
-import com.web5b.guatemala.web5b_guatemala.entities.Role;
-import com.web5b.guatemala.web5b_guatemala.security.decorators.HasAuthority;
+import com.web5b.guatemala.web5b_guatemala.entities.User;
+import com.web5b.guatemala.web5b_guatemala.security.decorators.GetRequestUser;
 import com.web5b.guatemala.web5b_guatemala.services.TaskService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,33 +29,30 @@ public class TaskController {
   private final TaskService taskService;
 
   @GetMapping("/{id}")
-  public Mono<TaskDto> findOneById(@PathVariable(name = "id") Long id) {
-    return taskService.findOneById(id);
+  public Mono<TaskDto> findOneById(@PathVariable(name = "id") Long id, @GetRequestUser User requester) {
+    return taskService.findOneById(id, requester.getId());
   }
 
   @GetMapping
-  public Flux<TaskDto> findAll() {
-    return taskService.findAll();
+  public Flux<TaskDto> findAll(@GetRequestUser User requester) {
+    return taskService.findAllEnabledByUserId(requester.getId());
   }
 
-  @HasAuthority(Role.ADMIN)
   @PostMapping
-  public Mono<TaskDto> create(@RequestBody CreateTaskDto dto) {
-    return taskService.create(dto);
+  public Mono<TaskDto> create(@RequestBody CreateTaskDto dto, @GetRequestUser User requester) {
+    return taskService.create(dto, requester.getId());
   }
 
-  @HasAuthority(Role.ADMIN)
   @PutMapping("/{id}")
-  public Mono<TaskDto> update(@PathVariable(name = "id") Long id, @RequestBody UpdateTaskDto dto) {
-    return taskService.update(id, dto);
+  public Mono<TaskDto> update(@PathVariable(name = "id") Long id, @RequestBody UpdateTaskDto dto,
+      @GetRequestUser User requester) {
+    return taskService.update(id, dto, requester.getId());
   }
 
-  @HasAuthority(Role.ADMIN)
   @DeleteMapping("/{id}")
   @ResponseStatus(code = HttpStatus.NO_CONTENT)
-  public Mono<Void> delete(@PathVariable(name = "id") Long id) {
-    return taskService.delete(id);
+  public Mono<Void> delete(@PathVariable(name = "id") Long id, @GetRequestUser User requester) {
+    return taskService.delete(id, requester.getId());
   }
 
-  
 }
