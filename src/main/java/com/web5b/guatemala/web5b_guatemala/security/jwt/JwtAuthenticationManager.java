@@ -23,6 +23,7 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
 
   @Override
   public Mono<Authentication> authenticate(Authentication authentication) {
+    System.out.println("aaa");
     if (authentication == null || authentication.getCredentials() == null) {
       return Mono.empty();
     }

@@ -34,6 +34,7 @@ public class AuthService implements IAuthService {
   @Override
   public Mono<LoginResponseDto> login(LoginDto loginDto) {
     return userRepository.findOneByUsername(loginDto.getUsername())
+        .switchIfEmpty(Mono.error(new BadCredentialsException("Invalid username or password")))
         .filter(user -> user.isEnabled())
         .switchIfEmpty(Mono.error(new DisabledException("User is disabled talk to admin to enable your account")))
         .filter(user -> passwordEncoder.matches(loginDto.getPassword(), user.getPassword()))

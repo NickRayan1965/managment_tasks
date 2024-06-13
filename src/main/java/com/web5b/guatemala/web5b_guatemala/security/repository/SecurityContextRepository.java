@@ -7,6 +7,7 @@ import org.springframework.security.web.server.context.ServerSecurityContextRepo
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
+import com.web5b.guatemala.web5b_guatemala.security.config.MainSecurity;
 import com.web5b.guatemala.web5b_guatemala.security.jwt.JwtAuthenticationManager;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,12 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
 
   @Override
   public Mono<SecurityContext> load(ServerWebExchange exchange) {
+    String path = exchange.getRequest().getPath().value();
+    boolean isUnprotectedPath = MainSecurity.getUnprotectedPaths().stream().anyMatch(unprotectedPath -> path.matches(unprotectedPath.replace("**", ".*")));
+    if (isUnprotectedPath) {
+      return Mono.empty();
+    }
+    System.out.println("jwt: " + exchange.getAttribute("jwt"));
     String jwt = exchange.getAttribute("jwt");
     return jwtAuthenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwt, jwt))
         .map(SecurityContextImpl::new);

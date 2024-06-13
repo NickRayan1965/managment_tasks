@@ -18,10 +18,12 @@ import com.web5b.guatemala.web5b_guatemala.entities.User;
 import com.web5b.guatemala.web5b_guatemala.security.decorators.GetRequestUser;
 import com.web5b.guatemala.web5b_guatemala.services.TaskService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@SecurityRequirement(name = "BearerAuth")
 @RestController
 @RequestMapping("/tasks")
 @RequiredArgsConstructor

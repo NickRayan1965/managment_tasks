@@ -10,6 +10,7 @@ import com.web5b.guatemala.web5b_guatemala.entities.Role;
 import com.web5b.guatemala.web5b_guatemala.security.decorators.HasAuthority;
 import com.web5b.guatemala.web5b_guatemala.services.IAuthService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
@@ -24,11 +25,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AuthController {
   private final IAuthService authService;
 
+  @SecurityRequirement(name = "NoAuth")
   @PostMapping("/login")
   public Mono<LoginResponseDto> login(@RequestBody LoginDto loginDto) {
       return authService.login(loginDto);
   }
 
+  @SecurityRequirement(name = "BearerAuth")
   @HasAuthority(Role.ADMIN)
   @PostMapping("/register")
   public Mono<UserDto> register(@RequestBody CreateUserDto createUserDto) {
