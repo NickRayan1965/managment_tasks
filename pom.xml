@@ -9,10 +9,10 @@
 		<version>3.3.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.web5b.guatemala</groupId>
-	<artifactId>web5b_guatemala</artifactId>
+	<groupId>com.webmanagement.dev</groupId>
+	<artifactId>webmanagement_dev</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>web5b_guatemala</name>
+	<name>webmanagement_dev</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
