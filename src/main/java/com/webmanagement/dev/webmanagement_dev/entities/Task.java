@@ -20,18 +20,23 @@ public class Task {
   @Id
   private Long id;
 
+  //varchar 50 not null
   @Column("name")
   private String name;
 
+  //text
   @Column("description")
   private String description;
 
+  //bigint
   @Column("type_id")
   private Long typeId;
 
+  //bigint not null
   @Column("user_id")
   private Long userId;
 
+  //boolean not null default true
   @Column("enabled")
   private Boolean enabled;
 }

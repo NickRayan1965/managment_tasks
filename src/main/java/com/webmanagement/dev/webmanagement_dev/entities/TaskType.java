@@ -20,9 +20,11 @@ public class TaskType {
   @Id
   private Long id; 
 
+  //varchar 50 not null unique
   @Column("name")
   private String name;
 
+  //boolean not null default true
   @Column("enabled")
   private Boolean enabled;
 }
