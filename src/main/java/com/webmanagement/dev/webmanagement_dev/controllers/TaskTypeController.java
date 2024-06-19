@@ -17,6 +17,7 @@ import com.webmanagement.dev.webmanagement_dev.security.decorators.HasAuthority;
 import com.webmanagement.dev.webmanagement_dev.services.ITaskTypeService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -40,13 +41,13 @@ public class TaskTypeController {
 
   @HasAuthority(Role.ADMIN)
   @PostMapping
-  public Mono<TaskTypeDto> create(@RequestBody CreateTaskTypeDto dto) {
+  public Mono<TaskTypeDto> create(@RequestBody  @Valid CreateTaskTypeDto dto) {
     return taskTypeService.create(dto);
   }
 
   @HasAuthority(Role.ADMIN)
   @PutMapping("/{id}")
-  public Mono<TaskTypeDto> update(@PathVariable(name = "id") Long id, @RequestBody UpdateTaskTypeDto dto) {
+  public Mono<TaskTypeDto> update(@PathVariable(name = "id") Long id, @RequestBody  @Valid UpdateTaskTypeDto dto) {
     return taskTypeService.update(id, dto);
   }
 

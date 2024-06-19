@@ -13,7 +13,9 @@ import com.webmanagement.dev.webmanagement_dev.entities.Role;
 import com.webmanagement.dev.webmanagement_dev.security.decorators.HasAuthority;
 import com.webmanagement.dev.webmanagement_dev.services.IUserService;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -39,7 +41,7 @@ public class UserController {
 
   @HasAuthority(Role.ADMIN)
   @PutMapping("/{id}")
-  public Mono<UserDto> update(@PathVariable(name = "id") Long id, UpdateUserDto user) {
+  public Mono<UserDto> update(@PathVariable(name = "id") Long id, @RequestBody @Valid UpdateUserDto user) {
     return userService.update(id, user);
   }
 
