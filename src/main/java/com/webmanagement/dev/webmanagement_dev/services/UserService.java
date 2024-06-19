@@ -36,7 +36,12 @@ public class UserService implements IUserService {
   @Override
   public Mono<UserDto> update(Long id, UpdateUserDto dto) {
     return findOneById(id)
-        .flatMap(u -> getDtoVerified(userMapper.dtoToEntity(dto)))
+        .map(userMapper::dtoToEntity)
+        .flatMap(user -> {
+          return getDtoVerified(userMapper.dtoToEntity(dto))
+              .map(u -> user);
+        })
+        .doOnNext(user -> userMapper.mergeToEntity(dto, user))
         .flatMap(userRepository::save)
         .map(userMapper::toDto);
   }
