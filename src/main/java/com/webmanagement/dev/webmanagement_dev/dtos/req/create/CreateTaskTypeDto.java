@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateTaskTypeDto {
-  @NotNull @Size(min = 4, max = 50)
+  @NotNull(message = "El nombre no puede ser nulo")
+  @Size(min = 4, max = 50, message = "El nombre debe tener entre 4 y 50 caracteres")
   private String name;
 }

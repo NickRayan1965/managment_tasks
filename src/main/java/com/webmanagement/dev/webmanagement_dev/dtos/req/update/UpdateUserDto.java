@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true)
 public class UpdateUserDto extends CreateUserDto {
 
-  @NotNull
+  @NotNull(message = "El campo habilitado no puede ser nulo")
   private Boolean enabled;
 }

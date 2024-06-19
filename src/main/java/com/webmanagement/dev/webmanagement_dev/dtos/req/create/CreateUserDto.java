@@ -17,12 +17,12 @@ import lombok.NoArgsConstructor;
 public class CreateUserDto {
   // indicar q es unico
   @Schema(description = "Nombre de usuario (unico)")
-  @Size(max = 50, min = 4)
-  @NotNull
+  @Size(max = 50, min = 4, message = "El nombre de usuario debe tener entre 4 y 50 caracteres")
+  @NotNull(message = "El nombre de usuario no puede ser nulo")
   private String username;
 
-  @Size(max = 100, min = 8)
-  @NotNull
+  @Size(max = 100, min = 8, message = "La contraseña debe tener entre 8 y 100 caracteres")
+  @NotNull(message = "La contraseña no puede ser nula")
   private String password;
 
   private Role role;

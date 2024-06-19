@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class UpdateTaskDto extends CreateTaskDto {
-  @NotNull
+  @NotNull(message = "El campo habilitado no puede ser nulo")
   private Boolean enabled;
 }
