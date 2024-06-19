@@ -43,7 +43,7 @@ public class User implements UserDetails {
   private String username;
 
   //varchar 100 not null
-  @Schema(description = "Contraseña", maxLength = 100, minLength = 8, nullable = false)
+  @Schema(description = "Contraseña", maxLength = 100, minLength = 4, nullable = false)
   @Column("password")
   private String password;
 

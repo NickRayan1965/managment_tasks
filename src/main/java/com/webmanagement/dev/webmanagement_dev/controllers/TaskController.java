@@ -42,9 +42,7 @@ public class TaskController {
   }
 
   @PostMapping
-  public Mono<TaskDto> create(@RequestBody @Valid CreateTaskDto dto, @GetRequestUser User requester) {
-    System.out.println("dto: " + dto);
-    
+  public Mono<TaskDto> create(@RequestBody @Valid CreateTaskDto dto, @GetRequestUser User requester) {    
     return taskService.create(dto, requester.getId());
   }
 

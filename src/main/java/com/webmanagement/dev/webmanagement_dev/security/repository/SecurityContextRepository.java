@@ -30,7 +30,6 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
     if (isUnprotectedPath) {
       return Mono.empty();
     }
-    System.out.println("jwt: " + exchange.getAttribute("jwt"));
     String jwt = exchange.getAttribute("jwt");
     return jwtAuthenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwt, jwt))
         .map(SecurityContextImpl::new);
