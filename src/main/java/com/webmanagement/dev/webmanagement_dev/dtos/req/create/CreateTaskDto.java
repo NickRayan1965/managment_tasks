@@ -12,10 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateTaskDto {
 
-  @NotNull @Size(min = 4, max = 50)
+  @NotNull @Size(min = 4, max = 50, message = "El nombre debe tener entre 4 y 50 caracteres")
   private String name;
 
-  @Size(max = 1000)
+  @Size(max = 1000, min = 4)
+  @NotNull
   private String description;
 
   @Schema(description = "Identificador del tipo de tarea", nullable = true)

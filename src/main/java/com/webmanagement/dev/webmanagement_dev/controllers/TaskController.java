@@ -19,6 +19,7 @@ import com.webmanagement.dev.webmanagement_dev.security.decorators.GetRequestUse
 import com.webmanagement.dev.webmanagement_dev.services.TaskService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -41,12 +42,12 @@ public class TaskController {
   }
 
   @PostMapping
-  public Mono<TaskDto> create(@RequestBody CreateTaskDto dto, @GetRequestUser User requester) {
+  public Mono<TaskDto> create(@RequestBody @Valid CreateTaskDto dto, @GetRequestUser User requester) {
     return taskService.create(dto, requester.getId());
   }
 
   @PutMapping("/{id}")
-  public Mono<TaskDto> update(@PathVariable(name = "id") Long id, @RequestBody UpdateTaskDto dto,
+  public Mono<TaskDto> update(@PathVariable(name = "id") Long id, @RequestBody @Valid UpdateTaskDto dto,
       @GetRequestUser User requester) {
     return taskService.update(id, dto, requester.getId());
   }
