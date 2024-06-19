@@ -1,13 +1,13 @@
 package com.webmanagement.dev.webmanagement_dev.services;
 
-import java.util.Arrays;
-
 import org.springframework.stereotype.Service;
 
 import com.webmanagement.dev.webmanagement_dev.dtos.db.TaskDbJoined;
 import com.webmanagement.dev.webmanagement_dev.dtos.req.create.CreateTaskDto;
 import com.webmanagement.dev.webmanagement_dev.dtos.req.update.UpdateTaskDto;
 import com.webmanagement.dev.webmanagement_dev.dtos.res.TaskDto;
+import com.webmanagement.dev.webmanagement_dev.dtos.res.TaskTypeDto;
+import com.webmanagement.dev.webmanagement_dev.dtos.res.UserDto;
 import com.webmanagement.dev.webmanagement_dev.entities.Task;
 import com.webmanagement.dev.webmanagement_dev.entities.mappers.ITaskMapper;
 import com.webmanagement.dev.webmanagement_dev.models.NotFoundException;
@@ -41,8 +41,9 @@ public class TaskService implements ITaskService {
 
   @Override
   public Mono<TaskDto> create(CreateTaskDto dto, Long userId) {
-    return getDtoVerified(taskMapper.dtoToEntity(dto))
+    return Mono.just(taskMapper.dtoToEntity(dto))
         .doOnNext(task -> task.setUserId(userId))
+        .flatMap(this::getDtoVerified)
         .flatMap(taskRepository::save)
         .map(taskMapper::toDto);
   }
@@ -50,15 +51,14 @@ public class TaskService implements ITaskService {
   @Override
   public Mono<TaskDto> update(Long id, UpdateTaskDto dto, Long userId) {
     return findOneById(id, userId)
-          .map(taskMapper::dtoToEntity)
-          .flatMap(task-> {
-            return getDtoVerified(taskMapper.dtoToEntity(dto))
-                .map(t -> task);
-          })
-          .doOnNext(task -> taskMapper.mergeToEntity(dto, task))
-          .flatMap(taskRepository::save)
-          .map(taskMapper::toDto)    
-        ;
+        .map(taskMapper::dtoToEntity)
+        .flatMap(task -> {
+          return getDtoVerified(taskMapper.dtoToEntity(dto))
+              .map(t -> task);
+        })
+        .doOnNext(task -> taskMapper.mergeToEntity(dto, task))
+        .flatMap(taskRepository::save)
+        .map(taskMapper::toDto);
   }
 
   @Override
@@ -74,11 +74,13 @@ public class TaskService implements ITaskService {
 
   @Override
   public Mono<Task> getDtoVerified(Task task) {
-    Flux<Mono<?>> resultFlux = Flux.fromIterable(Arrays.asList(
-        task.getUserId() != null ? userService.findOneById(task.getUserId()) : Mono.empty(),
-        task.getTypeId() != null ? taskTypeService.findOneById(task.getTypeId()) : Mono.empty()));
-    return Flux.zip(resultFlux, objects -> objects)
-        .then(Mono.just(task));
+    Long typeId = task.getTypeId();
+    Long userId = task.getUserId();
+    Mono<UserDto> userPromise = userId != null ? userService.findOneById(userId) : Mono.empty();
+    Mono<TaskTypeDto> taskTypePromise = typeId != null ? taskTypeService.findOneById(typeId) : Mono.empty();
+    return Flux.merge(userPromise, taskTypePromise)
+        .collectList()
+        .map(list -> task);
   }
 
 }
