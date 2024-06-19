@@ -53,7 +53,7 @@ public class AuthService implements IAuthService {
     createUserDto.setPassword(passwordEncoder.encode(createUserDto.getPassword()));
     createUserDto.setRole(createUserDto.getRole() == null ? Role.USER : createUserDto.getRole());
     return Mono.just(createUserDto)
-        .map(userMapper::toEntity)
+        .map(userMapper::dtoToEntity)
         .flatMap(userRepository::save)
         .map(userMapper::toDto);
   }
