@@ -45,7 +45,7 @@ public interface ITaskTypeMapper {
 
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "name", source = "name")
-  @Mapping(target = "enabled", defaultValue = "true", ignore = true)
+  @Mapping(target = "enabled", constant = "true")
   void mergeToEntity(CreateTaskTypeDto dto, @MappingTarget TaskType entity);
 
   @Mapping(target = "id", ignore = true)

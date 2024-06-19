@@ -72,7 +72,7 @@ public interface ITaskMapper {
 
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "userId", ignore = true)
-  @Mapping(target = "enabled", ignore = true, defaultValue = "true")
+  @Mapping(target = "enabled", constant = "true")
   void mergeToEntity(CreateTaskDto dto, @MappingTarget Task entity);
 
   @Mapping(target = "userId", source = "user.id")
