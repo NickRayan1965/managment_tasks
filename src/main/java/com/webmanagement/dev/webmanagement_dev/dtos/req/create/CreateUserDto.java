@@ -21,7 +21,7 @@ public class CreateUserDto {
   @NotNull(message = "El nombre de usuario no puede ser nulo")
   private String username;
 
-  @Size(max = 100, min = 8, message = "La contraseña debe tener entre 8 y 100 caracteres")
+  @Size(max = 100, min = 4, message = "La contraseña debe tener entre 4 y 100 caracteres")
   @NotNull(message = "La contraseña no puede ser nula")
   private String password;
 

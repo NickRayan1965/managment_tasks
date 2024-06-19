@@ -47,7 +47,7 @@ public interface IUserMapper {
   }
 
   @Mapping(target = "id", ignore = true)
-  @Mapping(target = "enabled", defaultValue = "true", ignore = true)
+  @Mapping(target = "enabled", constant = "true")
   @Mapping(target = "authorities", ignore = true)
   void mergeToEntity(CreateUserDto dto, @MappingTarget User entity);
 

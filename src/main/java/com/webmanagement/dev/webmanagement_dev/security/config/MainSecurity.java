@@ -27,6 +27,7 @@ public class MainSecurity {
   private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
   private static final List<String> UNPROTECTED_PATHS = List.of(
       "/auth/login",
+      "/auth/register",
       "/v2/api-docs",
       "/v3/api-docs",
       "/v3/api-docs/**",

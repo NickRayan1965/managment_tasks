@@ -6,11 +6,8 @@ import com.webmanagement.dev.webmanagement_dev.dtos.req.LoginDto;
 import com.webmanagement.dev.webmanagement_dev.dtos.req.create.CreateUserDto;
 import com.webmanagement.dev.webmanagement_dev.dtos.res.LoginResponseDto;
 import com.webmanagement.dev.webmanagement_dev.dtos.res.UserDto;
-import com.webmanagement.dev.webmanagement_dev.entities.Role;
-import com.webmanagement.dev.webmanagement_dev.security.decorators.HasAuthority;
 import com.webmanagement.dev.webmanagement_dev.services.IAuthService;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -31,8 +28,6 @@ public class AuthController {
       return authService.login(loginDto);
   }
 
-  @SecurityRequirement(name = "BearerAuth")
-  @HasAuthority(Role.ADMIN)
   @PostMapping("/register")
   public Mono<UserDto> register(@RequestBody @Valid CreateUserDto createUserDto) {
       return authService.register(createUserDto);
