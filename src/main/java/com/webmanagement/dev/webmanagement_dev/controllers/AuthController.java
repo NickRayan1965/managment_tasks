@@ -8,6 +8,7 @@ import com.webmanagement.dev.webmanagement_dev.dtos.res.LoginResponseDto;
 import com.webmanagement.dev.webmanagement_dev.dtos.res.UserDto;
 import com.webmanagement.dev.webmanagement_dev.services.IAuthService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+@Tag(name = "Auth")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

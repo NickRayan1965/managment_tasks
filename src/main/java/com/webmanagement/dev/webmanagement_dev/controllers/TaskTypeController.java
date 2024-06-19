@@ -17,12 +17,14 @@ import com.webmanagement.dev.webmanagement_dev.security.decorators.HasAuthority;
 import com.webmanagement.dev.webmanagement_dev.services.ITaskTypeService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @SecurityRequirement(name = "BearerAuth")
+@Tag(name = "Task Types")
 @RestController
 @RequestMapping("/task-types")
 @RequiredArgsConstructor

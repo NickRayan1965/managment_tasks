@@ -15,12 +15,14 @@ import com.webmanagement.dev.webmanagement_dev.services.IUserService;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @SecurityRequirement(name = "BearerAuth")
+@Tag(name = "Users")
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
