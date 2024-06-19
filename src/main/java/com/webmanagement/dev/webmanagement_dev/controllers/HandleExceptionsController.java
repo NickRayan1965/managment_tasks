@@ -1,7 +1,6 @@
 package com.webmanagement.dev.webmanagement_dev.controllers;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.dao.DuplicateKeyException;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.reactive.resource.NoResourceFoundException;
+import org.springframework.web.server.ServerWebInputException;
 
 import com.webmanagement.dev.webmanagement_dev.models.Error;
 import com.webmanagement.dev.webmanagement_dev.models.ForbiddenException;
@@ -77,9 +77,15 @@ public class HandleExceptionsController {
             .message(errors)
             .error("ValidationException")
             .status(HttpStatus.BAD_REQUEST.value())
-            .date(new Date())
             .build());
-  
-  
+    }
+    @ExceptionHandler(ServerWebInputException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Mono<Error> handleValidationExceptions(ServerWebInputException ex) {
+        return Mono.just(Error.builder()
+            .message("Invalid Body (Check the respective schema)")
+            .error("ValidationException")
+            .status(HttpStatus.BAD_REQUEST.value())
+            .build());
     }
 }

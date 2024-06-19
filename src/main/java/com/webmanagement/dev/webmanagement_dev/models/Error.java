@@ -13,24 +13,20 @@ import lombok.Setter;
 @Builder
 public class Error {
   public static Error fromRuntimeException(RuntimeException e) {
-    return Error.builder()
-      .message(e.getMessage())
-      .error(e.getClass().getSimpleName())
-      .status(500)
-      .date(new Date())
-      .build();
+    return Error.fromRuntimeException(e, HttpStatus.INTERNAL_SERVER_ERROR);
   }
   public static Error fromRuntimeException(RuntimeException e, HttpStatus status) {
     return Error.builder()
       .message(e.getMessage())
       .error(e.getClass().getSimpleName())
       .status(status.value())
-      .date(new Date())
       .build();
   }
 
   private Object message;
   private String error;
   private Integer status;
-  private Date date;
+
+  @Builder.Default
+  private Date date = new Date();
 }
