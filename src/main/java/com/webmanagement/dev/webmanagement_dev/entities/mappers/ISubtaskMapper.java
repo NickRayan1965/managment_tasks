@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import com.webmanagement.dev.webmanagement_dev.dtos.req.create.CreateSubtaskDto;
+import com.webmanagement.dev.webmanagement_dev.dtos.req.update.UpdateSubtaskDto;
 import com.webmanagement.dev.webmanagement_dev.entities.SubTask;
 
 @Mapper(componentModel = "spring")
@@ -16,9 +17,21 @@ public interface ISubtaskMapper {
     return entity;
   }
 
+  default SubTask dtoToEntity(UpdateSubtaskDto dto) {
+    SubTask entity = new SubTask();
+    mergeToEntity(dto, entity);
+    return entity;
+  }
+  
+
   @Mapping(target="id", ignore = true)
   @Mapping(target="order", ignore = true)
   @Mapping(target="taskId", ignore = true)
   @Mapping(target = "isCompleted", constant = "true")
   void mergeToEntity(CreateSubtaskDto dto, @MappingTarget SubTask entity);
+
+  @Mapping(target="id", ignore = true)
+  @Mapping(target="taskId", ignore = true)
+  @Mapping(target="order", ignore = true)
+  void mergeToEntiy(UpdateSubtaskDto dto, @MappingTarget SubTask entity);
 }

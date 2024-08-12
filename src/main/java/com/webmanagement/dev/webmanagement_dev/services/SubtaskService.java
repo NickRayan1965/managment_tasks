@@ -3,8 +3,10 @@ package com.webmanagement.dev.webmanagement_dev.services;
 import org.springframework.stereotype.Service;
 
 import com.webmanagement.dev.webmanagement_dev.dtos.req.create.CreateSubtaskDto;
+import com.webmanagement.dev.webmanagement_dev.dtos.req.update.UpdateSubtaskDto;
 import com.webmanagement.dev.webmanagement_dev.entities.SubTask;
 import com.webmanagement.dev.webmanagement_dev.entities.mappers.ISubtaskMapper;
+import com.webmanagement.dev.webmanagement_dev.models.NotFoundException;
 import com.webmanagement.dev.webmanagement_dev.repositories.ISubtaskRepository;
 
 import lombok.AllArgsConstructor;
@@ -43,6 +45,22 @@ public class SubtaskService implements ISubtaskService {
   @Override
   public Mono<SubTask> getDtoVerified(SubTask dto) {
     return Mono.just(dto);
+  }
+
+  @Override
+  public Mono<SubTask> updateById(Long id, UpdateSubtaskDto dto, Long userId) {
+    return findOneById(id, userId).flatMap(subtask -> {
+      return getDtoVerified(subtaskMapper.dtoToEntity(dto)).map(st -> subtask);
+    })
+    .doOnNext(subtask -> subtaskMapper.mergeToEntiy(dto, subtask))
+    .flatMap(subtaskRepository::save)
+    ;
+  }
+
+  @Override
+  public Mono<SubTask> findOneById(Long id, Long userId) {
+    return subtaskRepository.findByIdAndUserTaskId(id, userId)
+    .switchIfEmpty(Mono.error(new NotFoundException("Task not found")));
   }
 
 }
