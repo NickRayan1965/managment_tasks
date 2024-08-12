@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS public."subtasks" (
   "id" BIGSERIAL PRIMARY KEY,
   "task_id" BIGINT NOT NULL,
   "name" VARCHAR(50) NOT NULL,
+  "ordernumber" INTEGER NOT NULL,
   "is_completed" BOOLEAN NOT NULL DEFAULT TRUE,
   FOREIGN KEY ("task_id") REFERENCES tasks("id")
 )

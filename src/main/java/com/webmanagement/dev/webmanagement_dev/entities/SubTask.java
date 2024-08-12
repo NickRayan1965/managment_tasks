@@ -1,4 +1,4 @@
-package com.webmanagement.dev.webmanagement_dev.entities.mappers;
+package com.webmanagement.dev.webmanagement_dev.entities;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
@@ -9,8 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
+@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,6 +30,10 @@ public class SubTask {
   @Schema(description = "Nombre de la subtarea", maxLength = 50, minLength = 4, nullable = false)
   @Column("name")
   private String name;
+
+  @Schema(description = "Orden de la subtearea", nullable = false)
+  @Column("ordernumber")
+  private Integer order;
 
   @Schema(description = "¿Esta completa?", nullable = false, defaultValue = "true")
   @Column("is_completed")
