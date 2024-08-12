@@ -25,20 +25,20 @@ public class SubtaskService implements ISubtaskService {
     return Mono.just(subtaskMapper.dtoToEntity(dto))
         .flatMap(entity -> {
           return taskService.findOneById(taskId, userId)
-          .map(task -> entity);
+              .map(task -> entity);
         })
         .flatMap(this::getDtoVerified)// *verificacion del dto, aunque por ahora no es estricatamente necesario
         .doOnNext(subtask -> subtask.setTaskId(taskId))
         .flatMap(subtask -> {
-          return subtaskRepository.getLastItemNumberOfSubtasksByTaskId(taskId) // * obtenemos el ultimo item de las subtareas de una tarea
-          .switchIfEmpty(Mono.just(0))    
-          .map(lastItemNumber -> {
+          return subtaskRepository.getLastItemNumberOfSubtasksByTaskId(taskId) // * obtenemos el ultimo item de las
+                                                                               // subtareas de una tarea
+              .switchIfEmpty(Mono.just(0))
+              .map(lastItemNumber -> {
                 subtask.setOrder(lastItemNumber + 1);
                 return subtask;
               });
         })
-        .flatMap(subtaskRepository::save)
-        ;
+        .flatMap(subtaskRepository::save);
 
   }
 
@@ -52,15 +52,19 @@ public class SubtaskService implements ISubtaskService {
     return findOneById(id, userId).flatMap(subtask -> {
       return getDtoVerified(subtaskMapper.dtoToEntity(dto)).map(st -> subtask);
     })
-    .doOnNext(subtask -> subtaskMapper.mergeToEntiy(dto, subtask))
-    .flatMap(subtaskRepository::save)
-    ;
+        .doOnNext(subtask -> subtaskMapper.mergeToEntiy(dto, subtask))
+        .flatMap(subtaskRepository::save);
   }
 
   @Override
   public Mono<SubTask> findOneById(Long id, Long userId) {
     return subtaskRepository.findByIdAndUserTaskId(id, userId)
-    .switchIfEmpty(Mono.error(new NotFoundException("Task not found")));
+        .switchIfEmpty(Mono.error(new NotFoundException("Task not found")));
+  }
+
+  @Override
+  public Mono<Void> delete(Long id, Long userId) {
+    return findOneById(id, userId).flatMap(st -> subtaskRepository.deleteById(id)).then();
   }
 
 }

@@ -13,5 +13,7 @@ public interface ISubtaskService {
 
   Mono<SubTask> findOneById(Long id, Long userId);
 
+  Mono<Void> delete(Long id, Long userId);
+
   Mono<SubTask> getDtoVerified(SubTask dto);
 }
